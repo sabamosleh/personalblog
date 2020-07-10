@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profiles</title>
+    <div th:replace="fragment/layout::head"></div>
+</head>
+<body class="">
+<div th:replace="fragment/layout::header"></div>
+
+    <div class="container-fluid m-0 p-4">
+    <table class="table">
+
+
+        <thead class="thead-light">
+
+            <th>Picture</th>
+            <th>Name</th>
+            <th>Bio</th>
+            <th>Operation</th>
+        </thead>
+        <tbody>
+       <tr th:each="user: ${users}">
+          <td><img th:src="'/img/'+${user.getCover()}" class="rounded-circle" width="120" height="100"/></td>
+           <td th:text="${user.name}"></td>
+           <td th:text="${user.bio}"></td>
+           <td><a th:href="@{/users/postsByUser/{id} (id=${user.userID})}"
+                  type="button" class="btn-info btn-lg" th:text="viewPosts"></a></td>
+       </tr>
+        </tbody>
+
+    </table>
+    </div>
+</body>
+</html>

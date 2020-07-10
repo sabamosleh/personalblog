@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Posts</title>
+    <div th:replace="fragment/layout::head"></div>
+</head>
+<body class="">
+
+<div th:replace="fragment/layout::header"></div>
+
+<div class="container-fluid m-0 p-4">
+
+    <a th:href="@{/posts/register}" class="mb-2 btn btn-primary" style="width: 100px">
+        NEW
+    </a>
+
+
+    <nav aria-label="Page navigation example" style="float: right">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${posts.first} ? disabled">
+                <a class="page-link" th:href="@{posts(page=${posts.number -1 })}">Previous</a></li>
+
+            <li class="page-item"  th:each="i :${#numbers.sequence(0,posts.totalPages - 1)}">
+                <a class="page-link" th:href="@{/posts(page=${i})}">[[${i+1}]]</a></li>
+            <li class="page-item" th:classappend="${posts.last} ? disabled">
+                <a class="page-link" th:href="@{/posts(page=${posts.number + 1 })}">Next</a></li>
+        </ul>
+    </nav>
+
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Categories</th>
+            <th scope="col">Created By</th>
+            <th scope="col">Created Date</th>
+            <th scope="col">Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${posts}">
+            <th scope="row" th:text="${post.getId()}"></th>
+            <td th:text="${post.getTitle()}"></td>
+            <td>
+                <ul>
+                    <li th:each="category: ${post.categories}" th:text="${category.title}"></li>
+                </ul>
+
+            </td>
+            <td th:text="${post.user != null} ? ${post.user.name} : '-----'"></td>
+            <td th:text="${post.getCreatedAt()}"></td>
+            <td>
+                <a class="btn btn-success" th:href="@{/posts/edit/{id} (id=${post.id})}" style="width: 80px">Edit</a>
+                <a class="btn btn-danger" th:href="@{/posts/delete/{id} (id=${post.id})}" style="width: 80px">Delete</a>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+</body></html>
